@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mouvie</string>
+    <string name="trending_screen_title">Trending</string>
+    <string name="favorite_screen_title">Favorite</string>
+    <string name="search_screen_title">Search</string>
+    <string name="settings_screen_title">Settings</string>
+</resources>
