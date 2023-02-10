@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mouvie.ui.*
+import com.example.mouvie.ui.navigation.enums.Screens
 
 @Composable
 fun RootNavigationGraph(

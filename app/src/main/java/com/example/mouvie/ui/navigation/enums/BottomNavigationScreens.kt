@@ -1,4 +1,4 @@
-package com.example.mouvie.ui.navigation
+package com.example.mouvie.ui.navigation.enums
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
