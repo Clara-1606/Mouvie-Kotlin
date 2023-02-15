@@ -1,4 +1,4 @@
-package com.example.mouvie.ui.navigation
+package com.example.mouvie.ui.navigation.graph
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
