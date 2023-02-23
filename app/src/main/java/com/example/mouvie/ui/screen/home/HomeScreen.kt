@@ -17,11 +17,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mouvie.R
 import com.example.mouvie.ui.navigation.BottomNavigationScreens
 import com.example.mouvie.ui.navigation.Screens
+import com.example.mouvie.ui.screen.favorite.FavoriteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     rootNavController: NavController,
+    favoriteViewModel: FavoriteViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     var selectedItem by remember { mutableStateOf(1) }
@@ -68,7 +70,7 @@ fun HomeScreen(
         content = { innerPadding ->
             NavHost(navController, startDestination = BottomNavigationScreens.Trending.route, Modifier.padding(innerPadding)) {
                 composable(BottomNavigationScreens.Trending.route) { TrendingScreen(navController) }
-                composable(BottomNavigationScreens.Favorite.route) { FavoriteScreen(navController) }
+                composable(BottomNavigationScreens.Favorite.route) { FavoriteScreen(navController, favoriteViewModel) }
                 composable(BottomNavigationScreens.Search.route) { SearchScreen(navController) }
             }
         }
