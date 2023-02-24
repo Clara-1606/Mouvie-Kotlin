@@ -4,4 +4,8 @@
     <string name="favorite_screen_title">Favorite</string>
     <string name="search_screen_title">Search</string>
     <string name="settings_screen_title">Settings</string>
+    <string name="no_movies">No movies in favorites</string>
+    <string name="action">Actions</string>
+    <string name="delete">Delete</string>
+    <string name="see_movie">See</string>
 </resources>

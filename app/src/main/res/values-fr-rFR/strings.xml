@@ -5,4 +5,8 @@
     <string name="favorite_screen_title">Favoris</string>
     <string name="search_screen_title">Recherche</string>
     <string name="settings_screen_title">Paramètres</string>
+    <string name="no_movies">Aucun film en favoris</string>
+    <string name="action">Actions</string>
+    <string name="delete">Supprimer</string>
+    <string name="see_movie">Voir</string>
 </resources>

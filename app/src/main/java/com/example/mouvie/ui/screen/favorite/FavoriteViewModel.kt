@@ -19,6 +19,10 @@ class FavoriteViewModel (private val repository: FavoriteRepository) : ViewModel
     fun insert(favorite: Favorite) = viewModelScope.launch {
         repository.insert(favorite)
     }
+
+    fun delete(favorite: Favorite) = viewModelScope.launch {
+        repository.delete(favorite)
+    }
 }
 
 class FavoriteViewModelFactory(private val repository: FavoriteRepository) : ViewModelProvider.Factory {
