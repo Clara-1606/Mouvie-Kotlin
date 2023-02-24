@@ -25,7 +25,7 @@ abstract class MouvieRoomDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: MouvieRoomDatabase? = null
 
-        fun getDatabase(context: Context): MouvieRoomDatabase {
+        fun getDatabase(context: Context,scope: CoroutineScope): MouvieRoomDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
@@ -33,7 +33,11 @@ abstract class MouvieRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     MouvieRoomDatabase::class.java,
                     "mouvie_database"
-                ).build()
+                )// Wipes and rebuilds instead of migrating if no Migration object.
+                    // Migration is not part of this codelab.
+                    .fallbackToDestructiveMigration()
+                    .addCallback(MouvieDatabaseCallback(scope))
+                    .build()
                 INSTANCE = instance
                 // return instance
                 instance
@@ -44,7 +48,7 @@ abstract class MouvieRoomDatabase : RoomDatabase() {
 
     private class MouvieDatabaseCallback(
         private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
+    ) : Callback() {
 
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onCreate(db: SupportSQLiteDatabase) {
@@ -57,12 +61,12 @@ abstract class MouvieRoomDatabase : RoomDatabase() {
                     favoriteDao.deleteAllFavorites()
 
                     // Add sample words.
-                    var favorite =
-                        Favorite(1, 1, "Test", "https://media-animation.be/IMG/jpg/image.jpg")
+                    /*var favorite =
+                        Favorite(4, 4, "Test1", "https://media-animation.be/IMG/jpg/image.jpg")
                     favoriteDao.insert(favorite)
                     favorite =
-                        Favorite(2, 2, "Test2", "https://media-animation.be/IMG/jpg/image.jpg")
-                    favoriteDao.insert(favorite)
+                        Favorite(5, 5, "Test5", "https://media-animation.be/IMG/jpg/image.jpg")
+                    favoriteDao.insert(favorite)*/
                 }
             }
         }
