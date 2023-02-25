@@ -1,6 +1,6 @@
-package com.example.mouvie.model.movie
+package com.example.mouvie.model.movie.dto
 
-data class Movie(
+data class MovieDto(
     val poster_path: String?,
     val adult: Boolean,
     val overview: String,
