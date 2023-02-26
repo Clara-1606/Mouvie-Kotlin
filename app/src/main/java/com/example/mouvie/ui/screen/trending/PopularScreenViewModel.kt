@@ -1,17 +1,13 @@
 package com.example.mouvie.ui.screen.trending
 
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mouvie.config.fixed.UserPreferencesValues
 import com.example.mouvie.config.state.DataState
 import com.example.mouvie.model.movie.dto.MovieDto
 import com.example.mouvie.service.movie.MovieService
-import com.example.mouvie.ui.widget.movie.MovieCard
 import kotlinx.coroutines.launch
 
 class PopularScreenViewModel(
@@ -29,12 +25,12 @@ class PopularScreenViewModel(
     private var currentPage = 1
 
     init {
-        getPopularMovies(currentPage, "fr")
+        getPopularMovies(currentPage)
     }
 
-    private fun getPopularMovies(pageNumber: Int, language: String) {
+    private fun getPopularMovies(pageNumber: Int) {
         viewModelScope.launch {
-            movieService.getPopularMovies(pageNumber, language).collect {
+            movieService.getPopularMovies(pageNumber, UserPreferencesValues.LANGUAGE).collect {
                 // Update the data state
                 _dataState.value = it
 
@@ -51,6 +47,6 @@ class PopularScreenViewModel(
 
     fun loadNextPage(){
         ++currentPage
-        getPopularMovies(currentPage, "fr")
+        getPopularMovies(currentPage)
     }
 }

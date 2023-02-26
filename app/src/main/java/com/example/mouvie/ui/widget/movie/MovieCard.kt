@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.mouvie.config.fixed.ApiValues
 import com.example.mouvie.model.movie.dto.MovieDto
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -25,7 +26,7 @@ import com.example.mouvie.model.movie.dto.MovieDto
 fun MovieCard(movieDto: MovieDto) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(5.dp)) {
             GlideImage(
-                model = "https://image.tmdb.org/t/p/w500" + movieDto.poster_path,
+                model = ApiValues.IMAGE_W500_URL + movieDto.poster_path,
                 contentDescription = movieDto.original_title,
                 modifier = Modifier
                     .fillMaxWidth()

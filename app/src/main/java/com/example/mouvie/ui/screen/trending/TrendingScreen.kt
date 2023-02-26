@@ -1,6 +1,8 @@
 package com.example.mouvie.ui.screen.trending
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.*
@@ -36,7 +38,9 @@ fun TrendingScreen(
 
         if (dataState is DataState.Loading) {
             // Printing a progress indicator at the list's end whenever data is loading
+            // TODO : Center this indicator
             CircularProgressIndicator()
+
         } else if (dataState is DataState.Error) {
             // On error the user can try to load more data manually
             Button(onClick = { movieViewModel.loadNextPage() }) {
