@@ -26,7 +26,7 @@ class PopularScreenViewModel(
     private val _dataState: MutableLiveData<DataState<List<MovieDto>>> = MutableLiveData()
     val dataState: LiveData<DataState<List<MovieDto>>> = _dataState
 
-    var currentPage = 1
+    private var currentPage = 1
 
     init {
         getPopularMovies(currentPage, "fr")
