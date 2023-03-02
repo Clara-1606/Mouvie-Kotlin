@@ -128,12 +128,16 @@ Here is a simple demonstration of how the app is designed to be used, starting f
 
 
 ## Coming 
+### Technical
 - We would like to be able to use a database on a server, and add a connection system to the application so that anyone can find their account on any device.
 - We would also like to be able to put the application on the stores (but for that we would need to have an authorization to use the API commercially)
-- Finally, we would like to be able to make our Android application, a cross-platform application
+- Make our Android application, a cross-platform application
+
+### New features
 - Add  in your application
-- To have the follow-up of this one (how many episodes or seasons are left)
+- To have the follow-up of this one (how many episodes or seasons are left, etc)
 - Add filters for searches (Genre / Movies / Series ...)
+- Can rate movies
 
 
 ## Contact 
