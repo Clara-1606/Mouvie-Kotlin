@@ -68,7 +68,7 @@ fun HomeScreen(
         },
         content = { innerPadding ->
             NavHost(navController, startDestination = BottomNavigationScreens.Trending.route, Modifier.padding(innerPadding)) {
-                composable(BottomNavigationScreens.Trending.route) { TrendingScreen(navController) }
+                composable(BottomNavigationScreens.Trending.route) { TrendingScreen(rootNavController as NavHostController) }
                 composable(BottomNavigationScreens.Favorite.route) { FavoriteScreen(navController) }
                 composable(BottomNavigationScreens.Search.route) { SearchScreen(navController) }
             }

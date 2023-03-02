@@ -1,9 +1,6 @@
 package com.example.mouvie.ui.screen.trending
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -15,7 +12,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.mouvie.config.state.DataState
 import com.example.mouvie.model.movie.dto.MovieDto
+import com.example.mouvie.ui.navigation.enums.Screens
 import com.example.mouvie.ui.widget.movie.MovieCard
+import com.example.mouvie.ui.widget.movie.common.CenteredProgressIndicator
 
 @Composable
 fun TrendingScreen(
@@ -32,19 +31,25 @@ fun TrendingScreen(
             state = scrollState,
             ) {
             items(items = data as List<MovieDto>) {
-                    movie -> MovieCard(movie)
+                movie -> MovieCard(movie, onClick = {
+                    val navRoute =  Screens.MovieDetail.route.replace(
+                        oldValue =  "{" + Screens.MovieDetail.pathArg + "}",
+                        newValue =  movie.id.toString()
+                    )
+                    navController.navigate(navRoute)
+                }
+            )
             }
         }
 
         if (dataState is DataState.Loading) {
             // Printing a progress indicator at the list's end whenever data is loading
-            // TODO : Center this indicator
-            CircularProgressIndicator()
+            CenteredProgressIndicator()
 
         } else if (dataState is DataState.Error) {
             // On error the user can try to load more data manually
             Button(onClick = { movieViewModel.loadNextPage() }) {
-                // TODO : Decrease the page value before reloading
+                // TODO : Decrease the page value before reloading and add translation
                 Text(text = "Load more")
             }
         }

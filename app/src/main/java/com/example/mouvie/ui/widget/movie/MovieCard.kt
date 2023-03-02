@@ -1,5 +1,6 @@
 package com.example.mouvie.ui.widget.movie
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,12 +24,13 @@ import com.example.mouvie.model.movie.dto.MovieDto
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MovieCard(movieDto: MovieDto) {
+fun MovieCard(movieDto: MovieDto, onClick: () -> Unit) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(5.dp)) {
             GlideImage(
                 model = ApiValues.IMAGE_W500_URL + movieDto.poster_path,
                 contentDescription = movieDto.original_title,
                 modifier = Modifier
+                    .clickable(onClick = onClick)
                     .fillMaxWidth()
                     .aspectRatio(0.7f)
                     .clip(RoundedCornerShape(8.dp)),
