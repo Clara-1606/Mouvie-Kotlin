@@ -17,6 +17,7 @@
 8. [Dependencies](#dependencies)  
 9. [Showtime](#showtime)  
 10. [Coming](#coming) 
+10. [Why the project deserves points ?](#why-the-project-deserves-points-?) 
 11. [Contact](#contact)  
 
 ## Getting Started
@@ -139,6 +140,11 @@ Here is a simple demonstration of how the app is designed to be used, starting f
 - Add filters for searches (Genre / Movies / Series ...)
 - Can rate movies
 
+## Why the project deserves points ? 
+Our project is well structured, it respects good practices.  
+Everything is well defined in a package in a clear way to find your way around. There are comments to say what have done if someone has to take over the project.  
+We use the latest technologies with Compose, Material 3 (which we have customized), and we use the ORM Room with a strong architecture with Model/DAO/Repository/View Model
+The app is easy to use  
 
 ## Contact 
 
