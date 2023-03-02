@@ -130,6 +130,7 @@ Here is a simple demonstration of how the app is designed to be used, starting f
 ## Coming 
 - We would like to be able to use a database on a server, and add a connection system to the application so that anyone can find their account on any device.
 - We would also like to be able to put the application on the stores (but for that we would need to have an authorization to use the API commercially)
+- Finally, we would like to be able to make our Android application, a cross-platform application
 
 
 ## Contact 
