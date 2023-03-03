@@ -31,4 +31,24 @@ class MovieService : HttpService() {
             emit(DataState.Error(e))
         }
     }
+
+    suspend fun getSimilarMovies(movieId: Int, pageNumber: Int, language: String): Flow<DataState<List<MovieDto>>> = flow {
+        emit(DataState.Loading)
+        try {
+            val movieResponse = movieRepository.similarMovies(movieId, pageNumber, language)
+            emit(DataState.Success(movieResponse.body()?.results!!))
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
+
+    suspend fun getRecommendedMovies(movieId: Int, pageNumber: Int, language: String): Flow<DataState<List<MovieDto>>> = flow {
+        emit(DataState.Loading)
+        try {
+            val movieResponse = movieRepository.recommendationsForMovie(movieId, pageNumber, language)
+            emit(DataState.Success(movieResponse.body()?.results!!))
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
 }

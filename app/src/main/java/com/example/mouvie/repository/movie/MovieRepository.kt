@@ -15,4 +15,11 @@ interface MovieRepository {
 
     @GET("/3/movie/{id}")
     suspend fun movieDetails(@Path("id") id: Int, @Query("language") language: String): Response<MovieDetailDto>
+
+    @GET("/3/movie/{movieId}/recommendations")
+    suspend fun recommendationsForMovie(@Path("movieId") id: Int, @Query("page") pageNumber: Int = 1, @Query("language") language: String): Response<MovieResponseDto>
+
+    @GET("/3/movie/{movieId}/similar")
+    suspend fun similarMovies(@Path("movieId") id: Int, @Query("page") pageNumber: Int = 1, @Query("language") language: String): Response<MovieResponseDto>
+
 }

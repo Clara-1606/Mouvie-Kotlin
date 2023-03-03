@@ -15,6 +15,7 @@ import com.example.mouvie.model.movie.dto.MovieDto
 import com.example.mouvie.ui.navigation.enums.Screens
 import com.example.mouvie.ui.widget.movie.MovieCard
 import com.example.mouvie.ui.widget.movie.common.CenteredProgressIndicator
+import com.example.mouvie.ui.widget.movie.common.OnBottomReached
 
 @Composable
 fun TrendingScreen(
@@ -69,30 +70,5 @@ fun TrendingScreen(
     // Load more data when bottom reached
     scrollState.OnBottomReached {
         movieViewModel.loadNextPage()
-    }
-}
-
-
-@Composable
-fun LazyGridState.OnBottomReached(
-    buffer : Int = 15,
-    loadMore : () -> Unit
-){
-    val shouldLoadMore = remember {
-        derivedStateOf {
-            val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
-                ?: return@derivedStateOf true
-
-            lastVisibleItem.index >= layoutInfo.totalItemsCount - 1 - buffer
-        }
-    }
-
-    // Convert the state into a cold flow and collect
-    LaunchedEffect(shouldLoadMore){
-        snapshotFlow { shouldLoadMore.value }
-            .collect {
-                // if should load more, then invoke loadMore
-                if (it) loadMore()
-            }
     }
 }
