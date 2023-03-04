@@ -7,6 +7,6 @@ import retrofit2.http.Path
 
 interface WatchProvidersRepository {
 
-    @GET("/3/movie/{movie_id}/watch/providers")
+    @GET("/3/movie/{movieId}/watch/providers")
     suspend fun watchProviders(@Path("movieId") id: Int): Response<MovieWatchProvidersDto>
 }

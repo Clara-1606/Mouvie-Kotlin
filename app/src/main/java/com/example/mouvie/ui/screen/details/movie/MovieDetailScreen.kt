@@ -1,12 +1,19 @@
 package com.example.mouvie.ui.screen.details.movie
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -14,8 +21,10 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mouvie.config.fixed.ApiValues.Companion.IMAGE_ORIGINAL_URL
 import com.example.mouvie.config.state.DataState
 import com.example.mouvie.ui.widget.movie.HorizontalMovieList
+import com.example.mouvie.ui.widget.movie.WatchProvidersListWidget
 import com.example.mouvie.ui.widget.movie.common.CenteredProgressIndicator
 import com.example.mouvie.ui.widget.movie.common.ChipHorizontalList
+
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -36,22 +45,28 @@ fun MovieDetailScreen(
     val recommendedMoviesData by movieDetailScreenViewModel.recommendedMoviesData.observeAsState()
     val recommendedMoviesDataState by movieDetailScreenViewModel.recommendedMoviesDataState.observeAsState()
 
+    // Streaming services
+    val watchProvidersData by movieDetailScreenViewModel.watchProvidersData.observeAsState()
+    val watchProvidersDataState by movieDetailScreenViewModel.watchProvidersDataState.observeAsState()
+
     LaunchedEffect(Unit){
         // Initial data load
         movieDetailScreenViewModel.getMovieDetails(movieId)
         movieDetailScreenViewModel.getSimilarMovies(movieId, 1)
         movieDetailScreenViewModel.getRecommendedMovies(movieId, 1)
+        movieDetailScreenViewModel.getWatchProviders(movieId)
     }
 
     moviesData?.let { movie ->
         LazyColumn(content = {
             item {
-                // Backdrop
+                // Backdrop : Maybe Replace by video trailer ?
                 // TODO load after image loaded
                 // TODO Placeholder image
                 GlideImage(
                     model = IMAGE_ORIGINAL_URL + movie.backdrop_path,
-                    contentDescription = movie.title)
+                    contentDescription = movie.title
+                    )
             }
             item {
                 // Title
@@ -62,21 +77,40 @@ fun MovieDetailScreen(
                 ChipHorizontalList(content = movie.genres.map { it.name })
             }
             item {
-                // TODO : Streaming services
-            }
-            item {
                 // Description
-                // TODO : Padding
+                // TODO : Padding on whole page
                 movie.overview?.let {
                     Column() {
                         Text(text = "Overview", style = MaterialTheme.typography.titleLarge)
                         Text(text = it, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
+            }
+            item {
+                watchProvidersData?.let {
+                    if (it.flatrate != null || it.buy != null || it.rent != null) {
+                        Column {
+                            Text(text = "Streaming services", style = MaterialTheme.typography.titleLarge)
+                            it.flatrate?.let {
+                                WatchProvidersListWidget("Stream", it)
+                            }
+                            it.buy?.let {
+                                WatchProvidersListWidget("Buy", it)
+                            }
+                            it.rent?.let {
+                                WatchProvidersListWidget("Rent", it)
+                            }
+
+                        }
+                    }
+                }
+            }
+            item {
+                // TODO : Crew with pictures !!
 
             }
             item {
-                // Recommended movies ?
+                // Recommended movies
                 HorizontalMovieList(
                     title = "Recommended movies",
                     oneEndReached = { movieDetailScreenViewModel.loadNextRecommendedPage(movieId) },
@@ -86,7 +120,7 @@ fun MovieDetailScreen(
                 )
             }
             item {
-                // Similar movies ?
+                // Similar movies
                 HorizontalMovieList(
                     title = "Similar movies",
                     oneEndReached = { movieDetailScreenViewModel.loadNextSimilarPage(movieId) },

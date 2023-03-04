@@ -40,7 +40,10 @@ fun HorizontalMovieList(
                             oldValue = "{" + Screens.MovieDetail.pathArg + "}",
                             newValue = movie.id.toString()
                         )
-                        navController.navigate(navRoute)
+                        navController.navigate(navRoute) {
+                            // Navigate and replace the current screen
+                            popUpTo(Screens.Home.route)
+                        }
                     })
                 }
             }

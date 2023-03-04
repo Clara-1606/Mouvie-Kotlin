@@ -1,18 +1,20 @@
 package com.example.mouvie.ui.screen.details.movie
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mouvie.config.fixed.UserPreferencesValues
 import com.example.mouvie.config.state.DataState
-import com.example.mouvie.model.movie.dto.MovieDetailDto
-import com.example.mouvie.model.movie.dto.MovieDto
+import com.example.mouvie.model.movie.dto.*
 import com.example.mouvie.service.movie.MovieService
+import com.example.mouvie.service.movie.WatchProvidersService
 import kotlinx.coroutines.launch
 
 class MovieDetailScreenViewModel(
-    private val movieService: MovieService = MovieService()
+    private val movieService: MovieService = MovieService(),
+    private val watchProviderService: WatchProvidersService = WatchProvidersService()
 ): ViewModel() {
 
     // Actual movie details
@@ -38,6 +40,14 @@ class MovieDetailScreenViewModel(
     // Recommended movies data state (loading, success or error)
     private val _recommendedMoviesDataState: MutableLiveData<DataState<List<MovieDto>>> = MutableLiveData()
     val recommendedMoviesDataState: LiveData<DataState<List<MovieDto>>> = _recommendedMoviesDataState
+
+    // Watch providers data
+    private val _watchProvidersData: MutableLiveData<WatchProviderCountryDto> = MutableLiveData()
+    val watchProvidersData: LiveData<WatchProviderCountryDto> = _watchProvidersData
+
+    // Watch providers data state (loading, success or error)
+    private val _watchProvidersDataState: MutableLiveData<DataState<MovieWatchProvidersDto>> = MutableLiveData()
+    val watchProvidersDataState: LiveData<DataState<MovieWatchProvidersDto>> = _watchProvidersDataState
 
     private var currentSimilarPage = 1
     private var currentRecommendedPage = 1
@@ -86,6 +96,28 @@ class MovieDetailScreenViewModel(
                     newValue.addAll(it.data)
                     _recommendedMoviesData.value = newValue
                 }
+            }
+        }
+    }
+
+    fun getWatchProviders(movieId: Int) {
+        viewModelScope.launch {
+            watchProviderService.getWatchProviders(movieId).collect {
+                // Search for the desired language
+                try {
+                    _watchProvidersDataState.value = it
+
+                    if(it is DataState.Success) {
+                        // Using java reflection to search for the desired language
+                        _watchProvidersData.value = it.data.results?.javaClass
+                            ?.getMethod("get" + UserPreferencesValues.LANGUAGE.substring(3)) // To get property according the current user language
+                            ?.invoke(it.data.results) as WatchProviderCountryDto
+                    }
+
+                } catch (e: java.lang.Exception){
+                    Log.i("DEBUG",e.toString())
+                }
+
             }
         }
     }
