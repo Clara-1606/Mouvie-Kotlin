@@ -49,6 +49,14 @@ class MovieDetailScreenViewModel(
     private val _watchProvidersDataState: MutableLiveData<DataState<MovieWatchProvidersDto>> = MutableLiveData()
     val watchProvidersDataState: LiveData<DataState<MovieWatchProvidersDto>> = _watchProvidersDataState
 
+    // Credits data
+    private val _creditsData: MutableLiveData<MovieCreditsDto> = MutableLiveData()
+    val creditsData: LiveData<MovieCreditsDto> = _creditsData
+
+    // Credits data state (loading, success or error)
+    private val _creditsDataState: MutableLiveData<DataState<MovieCreditsDto>> = MutableLiveData()
+    val creditsDataState: LiveData<DataState<MovieCreditsDto>> = _creditsDataState
+
     private var currentSimilarPage = 1
     private var currentRecommendedPage = 1
 
@@ -110,14 +118,29 @@ class MovieDetailScreenViewModel(
                     if(it is DataState.Success) {
                         // Using java reflection to search for the desired language
                         _watchProvidersData.value = it.data.results?.javaClass
-                            ?.getMethod("get" + UserPreferencesValues.LANGUAGE.substring(3)) // To get property according the current user language
+                            ?.getMethod("get" + UserPreferencesValues.LANGUAGE.substring(3)) // To get property according the current user language (en-US) -> US
                             ?.invoke(it.data.results) as WatchProviderCountryDto
                     }
 
                 } catch (e: java.lang.Exception){
-                    Log.i("DEBUG",e.toString())
+                    Log.i("DEBUG", e.toString())
                 }
 
+            }
+        }
+    }
+
+    fun getCredits(movieId: Int){
+        viewModelScope.launch {
+            movieService.getMovieCredits(movieId, UserPreferencesValues.LANGUAGE).collect {
+                // Update the data state
+                _creditsDataState.value = it
+
+                // Update actual data only when request succeeded
+                if(it is DataState.Success) {
+                    // Order cast by the api order
+                    _creditsData.value = it.data
+                }
             }
         }
     }

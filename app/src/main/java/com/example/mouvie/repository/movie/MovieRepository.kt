@@ -1,5 +1,6 @@
 package com.example.mouvie.repository.movie
 
+import com.example.mouvie.model.movie.dto.MovieCreditsDto
 import com.example.mouvie.model.movie.dto.MovieDetailDto
 import com.example.mouvie.model.movie.dto.MovieResponseDto
 import retrofit2.Response
@@ -21,5 +22,8 @@ interface MovieRepository {
 
     @GET("/3/movie/{movieId}/similar")
     suspend fun similarMovies(@Path("movieId") id: Int, @Query("page") pageNumber: Int = 1, @Query("language") language: String): Response<MovieResponseDto>
+
+    @GET("/3/movie/{movieId}/credits")
+    suspend fun getCredits(@Path("movieId") id: Int, @Query("language") language: String): Response<MovieCreditsDto>
 
 }

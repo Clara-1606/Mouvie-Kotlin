@@ -20,7 +20,9 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mouvie.config.fixed.ApiValues.Companion.IMAGE_ORIGINAL_URL
 import com.example.mouvie.config.state.DataState
+import com.example.mouvie.model.movie.entity.PersonEntity
 import com.example.mouvie.ui.widget.movie.HorizontalMovieList
+import com.example.mouvie.ui.widget.movie.HorizontalPersonList
 import com.example.mouvie.ui.widget.movie.WatchProvidersListWidget
 import com.example.mouvie.ui.widget.movie.common.CenteredProgressIndicator
 import com.example.mouvie.ui.widget.movie.common.ChipHorizontalList
@@ -49,19 +51,24 @@ fun MovieDetailScreen(
     val watchProvidersData by movieDetailScreenViewModel.watchProvidersData.observeAsState()
     val watchProvidersDataState by movieDetailScreenViewModel.watchProvidersDataState.observeAsState()
 
+    // Credits
+    val creditsData by movieDetailScreenViewModel.creditsData.observeAsState()
+    val creditsDataState by movieDetailScreenViewModel.creditsDataState.observeAsState()
+
     LaunchedEffect(Unit){
         // Initial data load
         movieDetailScreenViewModel.getMovieDetails(movieId)
         movieDetailScreenViewModel.getSimilarMovies(movieId, 1)
         movieDetailScreenViewModel.getRecommendedMovies(movieId, 1)
         movieDetailScreenViewModel.getWatchProviders(movieId)
+        movieDetailScreenViewModel.getCredits(movieId)
     }
 
     moviesData?.let { movie ->
         LazyColumn(content = {
             item {
                 // Backdrop : Maybe Replace by video trailer ?
-                // TODO load after image loaded
+                // TODO load after image loaded -> See glide documentation
                 // TODO Placeholder image
                 GlideImage(
                     model = IMAGE_ORIGINAL_URL + movie.backdrop_path,
@@ -91,14 +98,14 @@ fun MovieDetailScreen(
                     if (it.flatrate != null || it.buy != null || it.rent != null) {
                         Column {
                             Text(text = "Streaming services", style = MaterialTheme.typography.titleLarge)
-                            it.flatrate?.let {
-                                WatchProvidersListWidget("Stream", it)
+                            it.flatrate?.let { flatrate ->
+                                WatchProvidersListWidget("Stream", flatrate)
                             }
-                            it.buy?.let {
-                                WatchProvidersListWidget("Buy", it)
+                            it.buy?.let { buy ->
+                                WatchProvidersListWidget("Buy", buy)
                             }
-                            it.rent?.let {
-                                WatchProvidersListWidget("Rent", it)
+                            it.rent?.let { rent ->
+                                WatchProvidersListWidget("Rent", rent)
                             }
 
                         }
@@ -107,7 +114,9 @@ fun MovieDetailScreen(
             }
             item {
                 // TODO : Crew with pictures !!
-
+                creditsData?.cast?.let {
+                    HorizontalPersonList(title = "Cast", persons = it.map { castMember -> PersonEntity(castMember.name, castMember.profile_path) })
+                }
             }
             item {
                 // Recommended movies

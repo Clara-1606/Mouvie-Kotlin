@@ -1,6 +1,5 @@
 package com.example.mouvie.ui.widget.movie
 
-import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow

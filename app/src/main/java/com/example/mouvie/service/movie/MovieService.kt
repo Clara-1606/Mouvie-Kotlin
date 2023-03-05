@@ -1,6 +1,7 @@
 package com.example.mouvie.service.movie
 
 import com.example.mouvie.config.state.DataState
+import com.example.mouvie.model.movie.dto.MovieCreditsDto
 import com.example.mouvie.model.movie.dto.MovieDetailDto
 import com.example.mouvie.model.movie.dto.MovieDto
 import com.example.mouvie.repository.movie.MovieRepository
@@ -47,6 +48,16 @@ class MovieService : HttpService() {
         try {
             val movieResponse = movieRepository.recommendationsForMovie(movieId, pageNumber, language)
             emit(DataState.Success(movieResponse.body()?.results!!))
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
+
+    suspend fun getMovieCredits(movieId: Int, language: String): Flow<DataState<MovieCreditsDto>> = flow {
+        emit(DataState.Loading)
+        try {
+            val movieResponse = movieRepository.getCredits(movieId, language)
+            emit(DataState.Success(movieResponse.body()!!))
         } catch (e: Exception) {
             emit(DataState.Error(e))
         }
