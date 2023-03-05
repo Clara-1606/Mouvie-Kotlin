@@ -24,6 +24,7 @@ import com.example.mouvie.ui.screen.trending.TrendingScreen
 @Composable
 fun HomeScreen(
     rootNavController: NavController,
+    favoriteViewModel: FavoriteViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     var selectedItem by remember { mutableStateOf(1) }
