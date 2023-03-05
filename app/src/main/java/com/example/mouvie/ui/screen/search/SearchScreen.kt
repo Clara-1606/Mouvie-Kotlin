@@ -20,7 +20,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mouvie.config.state.DataState
 import com.example.mouvie.model.movie.dto.MovieDto
 import com.example.mouvie.ui.navigation.enums.Screens
-import com.example.mouvie.ui.screen.trending.PopularScreenViewModel
 import com.example.mouvie.ui.widget.movie.MovieCard
 import com.example.mouvie.ui.widget.movie.SearchBar
 import com.example.mouvie.ui.widget.movie.common.CenteredProgressIndicator
@@ -37,6 +36,10 @@ fun SearchScreen(
     val scrollState = rememberLazyGridState()
 
     val textState = remember { mutableStateOf(TextFieldValue("")) }
+
+    // TODO : Save text input value on back button pressed
+    // TODO : See why validate button doesn't do anything
+    // TODO : See why on bottom reached doesn't trigger
 
     Column {
         SearchBar(textState
