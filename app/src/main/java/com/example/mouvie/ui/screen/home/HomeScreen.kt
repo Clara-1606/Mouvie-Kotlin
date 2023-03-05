@@ -1,4 +1,4 @@
-package com.example.mouvie.ui
+package com.example.mouvie.ui.screen.home
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,8 +15,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mouvie.R
+import com.example.mouvie.ui.FavoriteScreen
 import com.example.mouvie.ui.navigation.enums.BottomNavigationScreens
 import com.example.mouvie.ui.navigation.enums.Screens
+import com.example.mouvie.ui.screen.favorite.FavoriteViewModel
 import com.example.mouvie.ui.screen.search.SearchScreen
 import com.example.mouvie.ui.screen.trending.TrendingScreen
 
@@ -71,7 +73,7 @@ fun HomeScreen(
         content = { innerPadding ->
             NavHost(navController, startDestination = BottomNavigationScreens.Trending.route, Modifier.padding(innerPadding)) {
                 composable(BottomNavigationScreens.Trending.route) { TrendingScreen(rootNavController as NavHostController) }
-                composable(BottomNavigationScreens.Favorite.route) { FavoriteScreen(rootNavController as NavHostController) }
+                composable(BottomNavigationScreens.Favorite.route) { FavoriteScreen(rootNavController as NavHostController, favoriteViewModel) }
                 composable(BottomNavigationScreens.Search.route) { SearchScreen(rootNavController as NavHostController) }
             }
         }

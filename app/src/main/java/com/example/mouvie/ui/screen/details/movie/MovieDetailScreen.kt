@@ -68,7 +68,7 @@ fun MovieDetailScreen(
         LazyColumn(content = {
             item {
                 // Backdrop : Maybe Replace by video trailer ?
-                // TODO load after image loaded -> See glide documentation
+                // TODO load after image loaded -> See glide documentation and scroll top
                 // TODO Placeholder image
                 GlideImage(
                     model = IMAGE_ORIGINAL_URL + movie.backdrop_path,
@@ -113,7 +113,6 @@ fun MovieDetailScreen(
                 }
             }
             item {
-                // TODO : Crew with pictures !!
                 creditsData?.cast?.let {
                     HorizontalPersonList(title = "Cast", persons = it.map { castMember -> PersonEntity(castMember.name, castMember.profile_path) })
                 }
