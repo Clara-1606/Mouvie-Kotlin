@@ -26,4 +26,7 @@ interface MovieRepository {
     @GET("/3/movie/{movieId}/credits")
     suspend fun getCredits(@Path("movieId") id: Int, @Query("language") language: String): Response<MovieCreditsDto>
 
+    @GET("/3/search/movie")
+    suspend fun search(@Query("query") query: String, @Query("page") pageNumber: Int = 1, @Query("language") language: String): Response<MovieResponseDto>
+
 }

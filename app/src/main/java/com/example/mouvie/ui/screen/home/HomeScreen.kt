@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mouvie.R
 import com.example.mouvie.ui.navigation.enums.BottomNavigationScreens
 import com.example.mouvie.ui.navigation.enums.Screens
+import com.example.mouvie.ui.screen.search.SearchScreen
 import com.example.mouvie.ui.screen.trending.TrendingScreen
 
 @OptIn(ExperimentalMaterial3Api::class)

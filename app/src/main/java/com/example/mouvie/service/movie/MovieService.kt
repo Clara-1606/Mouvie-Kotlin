@@ -62,4 +62,14 @@ class MovieService : HttpService() {
             emit(DataState.Error(e))
         }
     }
+
+    suspend fun search(query: String, pageNumber: Int, language: String): Flow<DataState<List<MovieDto>>> = flow {
+        emit(DataState.Loading)
+        try {
+            val movieResponse = movieRepository.search(query, pageNumber, language)
+            emit(DataState.Success(movieResponse.body()?.results!!))
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
 }
