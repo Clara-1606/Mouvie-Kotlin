@@ -1,5 +1,5 @@
 ![OS](https://badgen.net/badge/OS/Android?icon=https://raw.githubusercontent.com/androiddevnotes/awesome-android-kotlin-apps/master/assets/android.svg&color=3ddc84)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.7.21-blue.svg)](http://kotlinlang.org)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.7.21-blue.svg)
 ![Language](https://img.shields.io/github/languages/top/cortinico/kotlin-android-template?color=blue&logo=kotlin)
 
 
@@ -17,6 +17,7 @@
 8. [Dependencies](#dependencies)  
 9. [Showtime](#showtime)  
 10. [Coming](#coming) 
+10. [Why the project deserves points ?](#why-the-project-deserves-points-?) 
 11. [Contact](#contact)  
 
 ## Getting Started
@@ -39,7 +40,9 @@ Install [Android Studio](https://developer.android.com/studio), see instructions
 For the first level 2 mobile development project of this year, we are coding a native android app with Kotlin.
 
 ## Introduction
-For our second project, we wanted to start with an application that lists the list of films that exist.
+We wanted to start a project from scratch in order to be able to put in place all the good practices, and push our architecture further.  
+We wanted to use an API to see how it works in Kotlin, and since we love movies, we decided to create Mouvie !  
+an application that lists the list of films that exist.
 Thanks to us, you will be able to search for a film, see the most popular of the moment and add them to your favorites!
 
 
@@ -68,12 +71,11 @@ We have to foolow the good practices of an android and kotlin project.
 - [X] Menu
 - [X] Use of layouts 
 - [X] Use of cards, alert dialog and other Material Design items 
-- [X] Use of the ViewBinding
-- [X] Kotlin concepts (array, lateinit, inline fun, with(), when(), also, etc.)  
+- [X] Use of the ViewBinding  
  - [X] App class
  - [X] Compose 
  - [X] RecyclerView
- - [X] DataStore
+ - [X] Room
 
 
 ## Technologies
@@ -86,7 +88,10 @@ Gradle Version : 7.5
 ### Libraries
   * [Glide to redimissesier an image](https://github.com/bumptech/glide)
   * Compose (androidx.compose:compose-bom:2022.12.00)
-  * DataStore (androidx.datastore:datastore-preferences:1.0.0)
+  * Room (androidx.room:room-ktx)
+  * LiveData (androidx.lifecycle:lifecycle-livedata-ktx)
+  * Coroutine (org.jetbrains.kotlinx:kotlinx-coroutines-android)
+  * Material 3 (androidx.compose.material3:material3:1.0.0-alpha11)
 
 ### Other
   * [View Binding, Part of Android Jetpack](https://developer.android.com/topic/libraries/view-binding)
@@ -94,6 +99,27 @@ Gradle Version : 7.5
 ## Architecture
 Our application is available in English and French
 
+## API 
+We use the API: https://www.themoviedb.org/
+
+We had to create an account, and we can use it for free if it's not for commercial purposes.
+
+## Database
+For favorites, we use the ORM Room.
+This makes it possible to have an SQLite database integrated into our application.
+Our database is very simple:
+
+<img src="./readme_images/database.png" alt="database" width="100" />
+
+We just had to be able to have:
+- We put an id at first, if we ever wanted to push our database a little further by making relationships with the films and the user (even if we know that it is possible to make a composite key with the 'user_id and movie_id)
+- the id of the film (in order to be able to see its detail by calling the API)
+- Its name directly to avoid redoing an API request
+- And finally its image for the same reasons of the name.
+
+We could have made it more complex, for example by making a Movie table linked to Favorites.
+But we didn't see any use for our use which remains very simple but it is in our possible improvements.
+We have also decided not to put all the information in the database so as not to overload it, whereas we can simply reuse the "Details of a film" page which does the search directly by calling the API
 
 
 ## Showtime
@@ -103,7 +129,22 @@ Here is a simple demonstration of how the app is designed to be used, starting f
 
 
 ## Coming 
+### Technical
+- We would like to be able to use a database on a server, and add a connection system to the application so that anyone can find their account on any device.
+- We would also like to be able to put the application on the stores (but for that we would need to have an authorization to use the API commercially)
+- Make our Android application, a cross-platform application
 
+### New features
+- Add  in your application
+- To have the follow-up of this one (how many episodes or seasons are left, etc)
+- Add filters for searches (Genre / Movies / Series ...)
+- Can rate movies
+
+## Why the project deserves points ? 
+Our project is well structured, it respects good practices.  
+Everything is well defined in a package in a clear way to find your way around. There are comments to say what have done if someone has to take over the project.  
+We use the latest technologies with Compose, Material 3 (which we have customized), and we use the ORM Room with a strong architecture with Model/DAO/Repository/View Model
+The app is easy to use  
 
 ## Contact 
 

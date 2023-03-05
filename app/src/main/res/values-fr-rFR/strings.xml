@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mouvie</string>
+    <string name="trending_screen_title">Populaire</string>
+    <string name="favorite_screen_title">Favoris</string>
+    <string name="search_screen_title">Recherche</string>
+    <string name="settings_screen_title">Paramètres</string>
+</resources>
