@@ -8,5 +8,12 @@
     <string name="action">Confirm deletion</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
-    <string name="movie_detail_screen_title">Movie details</string>
+    <string name="overview">Overview</string>
+    <string name="streming_category">Streaming services</string>
+    <string name="stream">Stream</string>
+    <string name="buy">Buy</string>
+    <string name="rent">Rent</string>
+    <string name="cast">Cast</string>
+    <string name="recommended_movies">Recommended movies</string>
+    <string name="similar_movies">Similar movies</string>
 </resources>

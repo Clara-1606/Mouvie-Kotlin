@@ -9,4 +9,12 @@
     <string name="action">Confirmer</string>
     <string name="delete">Supprimer</string>
     <string name="cancel">Cancel</string>
+    <string name="overview">Résumé</string>
+    <string name="streming_category">Streaming</string>
+    <string name="stream">Streamer</string>
+    <string name="buy">Acheter</string>
+    <string name="rent">Louer</string>
+    <string name="cast">Casting</string>
+    <string name="recommended_movies">Recommandations</string>
+    <string name="similar_movies">Similaires</string>
 </resources>

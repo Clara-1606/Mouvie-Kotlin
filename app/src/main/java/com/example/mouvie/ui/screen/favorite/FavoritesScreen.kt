@@ -16,18 +16,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asFlow
 import com.example.mouvie.R
-import com.example.mouvie.config.state.DataState
 import com.example.mouvie.model.movie.dto.MovieDto
-import com.example.mouvie.ui.composant.MovieGrid
 import com.example.mouvie.ui.navigation.enums.Screens
 import com.example.mouvie.ui.widget.movie.MovieCard
-import com.example.mouvie.ui.widget.movie.common.CenteredProgressIndicator
 import kotlinx.coroutines.flow.Flow
 
 @Composable

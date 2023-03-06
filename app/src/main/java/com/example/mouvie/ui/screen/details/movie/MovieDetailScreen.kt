@@ -19,11 +19,13 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.mouvie.R
 import com.example.mouvie.config.fixed.ApiValues.Companion.IMAGE_ORIGINAL_URL
 import com.example.mouvie.config.state.DataState
 import com.example.mouvie.model.favorite.Favorite
@@ -121,8 +123,8 @@ fun MovieDetailScreen(
                 // Description
                 // TODO : Padding on whole page
                 movie.overview?.let {
-                    Column() {
-                        Text(text = "Overview", style = MaterialTheme.typography.titleLarge)
+                    Column {
+                        Text(text = stringResource(R.string.overview), style = MaterialTheme.typography.titleLarge)
                         Text(text = it, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
@@ -131,15 +133,15 @@ fun MovieDetailScreen(
                 watchProvidersData?.let {
                     if (it.flatrate != null || it.buy != null || it.rent != null) {
                         Column {
-                            Text(text = "Streaming services", style = MaterialTheme.typography.titleLarge)
+                            Text(text = stringResource(R.string.streming_category), style = MaterialTheme.typography.titleLarge)
                             it.flatrate?.let { flatrate ->
-                                WatchProvidersListWidget("Stream", flatrate)
+                                WatchProvidersListWidget(stringResource(R.string.stream), flatrate)
                             }
                             it.buy?.let { buy ->
-                                WatchProvidersListWidget("Buy", buy)
+                                WatchProvidersListWidget(stringResource(R.string.buy), buy)
                             }
                             it.rent?.let { rent ->
-                                WatchProvidersListWidget("Rent", rent)
+                                WatchProvidersListWidget(stringResource(R.string.rent), rent)
                             }
 
                         }
@@ -148,13 +150,13 @@ fun MovieDetailScreen(
             }
             item {
                 creditsData?.cast?.let {
-                    HorizontalPersonList(title = "Cast", persons = it.map { castMember -> PersonEntity(castMember.name, castMember.profile_path) })
+                    HorizontalPersonList(title = stringResource(R.string.cast), persons = it.map { castMember -> PersonEntity(castMember.name, castMember.profile_path) })
                 }
             }
             item {
                 // Recommended movies
                 HorizontalMovieList(
-                    title = "Recommended movies",
+                    title = stringResource(R.string.recommended_movies),
                     oneEndReached = { movieDetailScreenViewModel.loadNextRecommendedPage(movieId) },
                     data = recommendedMoviesData,
                     dataState = recommendedMoviesDataState,
