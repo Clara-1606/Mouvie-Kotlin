@@ -1,4 +1,4 @@
-package com.example.mouvie.ui
+package com.example.mouvie.ui.screen.home
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,13 +15,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mouvie.R
-import com.example.mouvie.ui.navigation.BottomNavigationScreens
-import com.example.mouvie.ui.navigation.Screens
+import com.example.mouvie.ui.screen.favorite.FavoriteScreen
+import com.example.mouvie.ui.navigation.enums.BottomNavigationScreens
+import com.example.mouvie.ui.navigation.enums.Screens
+import com.example.mouvie.ui.screen.favorite.FavoriteViewModel
+import com.example.mouvie.ui.screen.search.SearchScreen
+import com.example.mouvie.ui.screen.trending.TrendingScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     rootNavController: NavController,
+    favoriteViewModel: FavoriteViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     var selectedItem by remember { mutableStateOf(1) }
@@ -67,9 +72,9 @@ fun HomeScreen(
         },
         content = { innerPadding ->
             NavHost(navController, startDestination = BottomNavigationScreens.Trending.route, Modifier.padding(innerPadding)) {
-                composable(BottomNavigationScreens.Trending.route) { TrendingScreen(navController) }
-                composable(BottomNavigationScreens.Favorite.route) { FavoriteScreen(navController) }
-                composable(BottomNavigationScreens.Search.route) { SearchScreen(navController) }
+                composable(BottomNavigationScreens.Trending.route) { TrendingScreen(rootNavController as NavHostController) }
+                composable(BottomNavigationScreens.Favorite.route) { FavoriteScreen(rootNavController as NavHostController, favoriteViewModel) }
+                composable(BottomNavigationScreens.Search.route) { SearchScreen(rootNavController as NavHostController) }
             }
         }
     )
