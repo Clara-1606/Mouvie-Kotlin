@@ -6,8 +6,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -18,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asFlow
@@ -37,6 +37,8 @@ fun FavoriteScreen(
 ) {
     var allFavoritesState by remember { mutableStateOf(emptyList<Favorite>()) }
     val allFavorites: Flow<List<Favorite>> = favoriteViewModel.allFavorites.asFlow()
+    val showDialog = remember { mutableStateOf(false) }
+    val selectedMovie = remember { mutableStateOf(0) }
 
     LaunchedEffect(allFavorites) {
         allFavorites.collect { favorites ->
@@ -56,12 +58,16 @@ fun FavoriteScreen(
                     MovieCard(
                         MovieDto(poster_path = movie.posterPath, id = movie.idMovie, title = "", adult = false, backdrop_path = "", genre_ids = listOf(), original_title = "", original_language = "", overview = "", popularity = 0, release_date = "", vote_average = 0, vote_count = 0)
                         , onClick = {
-                        val navRoute = Screens.MovieDetail.route.replace(
-                            oldValue = "{" + Screens.MovieDetail.pathArg + "}",
-                            newValue = movie.idMovie.toString()
-                        )
-                        navController.navigate(navRoute)
-                    }
+                            val navRoute = Screens.MovieDetail.route.replace(
+                                oldValue = "{" + Screens.MovieDetail.pathArg + "}",
+                                newValue = movie.idMovie.toString()
+                            )
+                            navController.navigate(navRoute)
+                        },
+                        onLongClick = {
+                            selectedMovie.value = movie.idMovie
+                            showDialog.value = true
+                        }
                     )
                 }
             }
@@ -69,6 +75,45 @@ fun FavoriteScreen(
     }
     else {
         Text(stringResource(R.string.no_movies))
+    }
+
+    if (showDialog.value) {
+        AlertDialog(
+            onDismissRequest = {
+                showDialog.value = false
+            },
+            title = { Text(stringResource(R.string.action)) },
+            containerColor = MaterialTheme.colorScheme.inversePrimary,
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        // Delete the image from the database
+                        favoriteViewModel.removeFromFavorites(selectedMovie.value)
+                        showDialog.value = false
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = Color.White // Color Text
+                    )
+                ) {
+                    Text(stringResource(R.string.delete))
+
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showDialog.value = false
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = Color.White, // Color Text
+                        containerColor = MaterialTheme.colorScheme.secondary
+                    ),
+
+                    ) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
     }
 }
 

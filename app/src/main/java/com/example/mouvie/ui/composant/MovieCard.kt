@@ -105,7 +105,7 @@ fun MovieCard(movie: Favorite, modifier: Modifier = Modifier, onDelete: () -> Un
                     ),
 
                 ) {
-                    Text(stringResource(com.example.mouvie.R.string.see_movie))
+                    Text(stringResource(com.example.mouvie.R.string.cancel))
                 }
             }
         )

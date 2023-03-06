@@ -16,13 +16,9 @@ class FavoriteViewModel (val repository: FavoriteRepository) : ViewModel() {
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun insert(favorite: Favorite) = viewModelScope.launch {
-        repository.insert(favorite)
+    fun removeFromFavorites(movieId: Int) = viewModelScope.launch {
+        repository.delete(movieId = movieId)
     }
-
-    /*fun delete(favorite: Favorite) = viewModelScope.launch {
-        repository.delete(favorite)
-    }*/
 }
 
 class FavoriteViewModelFactory(private val repository: FavoriteRepository) : ViewModelProvider.Factory {

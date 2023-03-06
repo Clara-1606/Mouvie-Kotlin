@@ -5,8 +5,8 @@
     <string name="search_screen_title">Search</string>
     <string name="settings_screen_title">Settings</string>
     <string name="no_movies">No movies in favorites</string>
-    <string name="action">Actions</string>
+    <string name="action">Confirm deletion</string>
     <string name="delete">Delete</string>
-    <string name="see_movie">See</string>
+    <string name="cancel">Cancel</string>
     <string name="movie_detail_screen_title">Movie details</string>
 </resources>
