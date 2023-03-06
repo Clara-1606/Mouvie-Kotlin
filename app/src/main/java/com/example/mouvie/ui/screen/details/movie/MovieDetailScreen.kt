@@ -37,7 +37,7 @@ import com.example.mouvie.ui.widget.movie.common.CenteredProgressIndicator
 import com.example.mouvie.ui.widget.movie.common.ChipHorizontalList
 
 
-@OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun MovieDetailScreen(
     navController: NavHostController,
@@ -166,7 +166,7 @@ fun MovieDetailScreen(
             item {
                 // Similar movies
                 HorizontalMovieList(
-                    title = "Similar movies",
+                    title = stringResource(R.string.similar_movies),
                     oneEndReached = { movieDetailScreenViewModel.loadNextSimilarPage(movieId) },
                     data = similarMoviesData,
                     dataState = similarMoviesDataState,
