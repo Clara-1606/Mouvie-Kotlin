@@ -1,20 +1,24 @@
 package com.example.mouvie.ui.screen.details.movie
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.mouvie.MouvieApplication
 import com.example.mouvie.config.fixed.UserPreferencesValues
 import com.example.mouvie.config.state.DataState
+import com.example.mouvie.dao.favorite.FavoriteDao
+import com.example.mouvie.dao.favorite.FavoriteDao_Impl
+import com.example.mouvie.model.favorite.Favorite
 import com.example.mouvie.model.movie.dto.*
+import com.example.mouvie.repository.favorite.FavoriteRepository
 import com.example.mouvie.service.movie.MovieService
 import com.example.mouvie.service.movie.WatchProvidersService
+import com.example.mouvie.ui.screen.favorite.FavoriteViewModel
 import kotlinx.coroutines.launch
 
 class MovieDetailScreenViewModel(
     private val movieService: MovieService = MovieService(),
-    private val watchProviderService: WatchProvidersService = WatchProvidersService()
+    private val watchProviderService: WatchProvidersService = WatchProvidersService(),
+    private val repository: FavoriteRepository
 ): ViewModel() {
 
     // Actual movie details
@@ -56,6 +60,8 @@ class MovieDetailScreenViewModel(
     // Credits data state (loading, success or error)
     private val _creditsDataState: MutableLiveData<DataState<MovieCreditsDto>> = MutableLiveData()
     val creditsDataState: LiveData<DataState<MovieCreditsDto>> = _creditsDataState
+
+    val isFavorite: MutableLiveData<Boolean> = MutableLiveData()
 
     private var currentSimilarPage = 1
     private var currentRecommendedPage = 1
@@ -145,6 +151,22 @@ class MovieDetailScreenViewModel(
         }
     }
 
+    fun isFavorite(movieId: Int) = viewModelScope.launch {
+        repository.get(movieId).collect{
+            isFavorite.value = it != null
+        }
+    }
+
+    fun addToFavorites(favorite: Favorite) = viewModelScope.launch {
+        repository.insert(favorite)
+        isFavorite(favorite.idMovie)
+    }
+
+    fun removeFromFavorites(movieId: Int) = viewModelScope.launch {
+        repository.delete(movieId = movieId)
+        isFavorite(movieId)
+    }
+
     fun loadNextSimilarPage(movieId: Int){
         ++currentSimilarPage
         getSimilarMovies(movieId, currentSimilarPage)
@@ -153,5 +175,15 @@ class MovieDetailScreenViewModel(
     fun loadNextRecommendedPage(movieId: Int){
         ++currentRecommendedPage
         getRecommendedMovies(movieId, currentRecommendedPage)
+    }
+}
+
+class MovieDetailScreenViewModelFactory(private val repository: FavoriteRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MovieDetailScreenViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return MovieDetailScreenViewModel(repository =  repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

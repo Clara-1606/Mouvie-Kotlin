@@ -5,6 +5,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +26,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mouvie.config.fixed.ApiValues.Companion.IMAGE_ORIGINAL_URL
 import com.example.mouvie.config.state.DataState
+import com.example.mouvie.model.favorite.Favorite
 import com.example.mouvie.model.movie.entity.PersonEntity
 import com.example.mouvie.ui.widget.movie.HorizontalMovieList
 import com.example.mouvie.ui.widget.movie.HorizontalPersonList
@@ -55,6 +62,9 @@ fun MovieDetailScreen(
     val creditsData by movieDetailScreenViewModel.creditsData.observeAsState()
     val creditsDataState by movieDetailScreenViewModel.creditsDataState.observeAsState()
 
+    // Favorite
+    val isFavorite by movieDetailScreenViewModel.isFavorite.observeAsState()
+
     LaunchedEffect(Unit){
         // Initial data load
         movieDetailScreenViewModel.getMovieDetails(movieId)
@@ -62,6 +72,7 @@ fun MovieDetailScreen(
         movieDetailScreenViewModel.getRecommendedMovies(movieId, 1)
         movieDetailScreenViewModel.getWatchProviders(movieId)
         movieDetailScreenViewModel.getCredits(movieId)
+        movieDetailScreenViewModel.isFavorite(movieId)
     }
 
     moviesData?.let { movie ->
@@ -74,6 +85,29 @@ fun MovieDetailScreen(
                     model = IMAGE_ORIGINAL_URL + movie.backdrop_path,
                     contentDescription = movie.title
                     )
+            }
+            item {
+                // Title
+                IconButton(onClick = {
+                    if (isFavorite!!) {
+                        movieDetailScreenViewModel.removeFromFavorites(movieId = movieId)
+                    } else {
+                        movieDetailScreenViewModel.addToFavorites(Favorite(idMovie = movie.id, name = movie.title, posterPath = movie.poster_path!!, id = 0))
+                    }
+                },
+                ) {
+                    if (isFavorite!!) {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            contentDescription = "Favorite",
+                        )
+                    } else {
+                        Icon(
+                            Icons.Outlined.FavoriteBorder,
+                            contentDescription = "Not Favorite")
+                    }
+
+                }
             }
             item {
                 // Title

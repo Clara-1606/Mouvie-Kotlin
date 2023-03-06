@@ -15,7 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mouvie.R
-import com.example.mouvie.ui.FavoriteScreen
+import com.example.mouvie.ui.screen.favorite.FavoriteScreen
 import com.example.mouvie.ui.navigation.enums.BottomNavigationScreens
 import com.example.mouvie.ui.navigation.enums.Screens
 import com.example.mouvie.ui.screen.favorite.FavoriteViewModel

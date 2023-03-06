@@ -5,7 +5,7 @@ import com.example.mouvie.model.favorite.Favorite
 import com.example.mouvie.repository.favorite.FavoriteRepository
 import kotlinx.coroutines.launch
 
-class FavoriteViewModel (private val repository: FavoriteRepository) : ViewModel() {
+class FavoriteViewModel (val repository: FavoriteRepository) : ViewModel() {
 
     // Using LiveData and caching what allWords returns has several benefits:
     // - We can put an observer on the data (instead of polling for changes) and only update the
@@ -20,9 +20,9 @@ class FavoriteViewModel (private val repository: FavoriteRepository) : ViewModel
         repository.insert(favorite)
     }
 
-    fun delete(favorite: Favorite) = viewModelScope.launch {
+    /*fun delete(favorite: Favorite) = viewModelScope.launch {
         repository.delete(favorite)
-    }
+    }*/
 }
 
 class FavoriteViewModelFactory(private val repository: FavoriteRepository) : ViewModelProvider.Factory {

@@ -14,4 +14,5 @@ data class MovieDto(
     val popularity: Number,
     val vote_count: Int,
     val vote_average: Number
-)
+) {
+}

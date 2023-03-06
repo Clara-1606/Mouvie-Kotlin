@@ -5,6 +5,7 @@ import com.example.mouvie.dao.favorite.FavoriteDao
 import com.example.mouvie.model.favorite.Favorite
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 class FavoriteRepository (private val favoriteDao: FavoriteDao) {
@@ -21,10 +22,15 @@ class FavoriteRepository (private val favoriteDao: FavoriteDao) {
         favoriteDao.insert(favorite)
     }
 
-    suspend fun delete(favorite: Favorite) {
+    suspend fun delete(movieId: Int) {
         withContext(Dispatchers.IO) {
-            favoriteDao.deleteFavorite(favorite)
+            favoriteDao.deleteFavorite(movieId)
         }
+    }
 
+    suspend fun get(movieId: Int) = flow {
+        favoriteDao.getFavoriteById(movieId).collect {
+            emit(it)
+        }
     }
 }

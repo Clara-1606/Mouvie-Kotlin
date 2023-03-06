@@ -16,8 +16,10 @@ interface FavoriteDao {
     @Query("DELETE FROM favorite_table")
     suspend fun deleteAllFavorites(): Int
 
-    @Delete
-    fun deleteFavorite(favorite: Favorite): Int
+    @Query("DELETE FROM favorite_table WHERE id_movie = :movieId")
+    suspend fun deleteFavorite(movieId: Int): Int
 
+    @Query("SELECT * FROM favorite_table WHERE id_movie = :movieId LIMIT 1")
+    fun getFavoriteById(movieId: Int): Flow<Favorite>
 
 }
