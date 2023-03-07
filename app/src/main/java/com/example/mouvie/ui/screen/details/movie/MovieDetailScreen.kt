@@ -1,5 +1,6 @@
 package com.example.mouvie.ui.screen.details.movie
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -9,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
@@ -19,6 +21,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -37,7 +40,8 @@ import com.example.mouvie.ui.widget.movie.common.CenteredProgressIndicator
 import com.example.mouvie.ui.widget.movie.common.ChipHorizontalList
 
 
-@OptIn(ExperimentalGlideComposeApi::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailScreen(
     navController: NavHostController,
@@ -76,9 +80,22 @@ fun MovieDetailScreen(
         movieDetailScreenViewModel.getCredits(movieId)
         movieDetailScreenViewModel.isFavorite(movieId)
     }
-
+Scaffold(
+    topBar = {
+        SmallTopAppBar(
+            title = { Text(text = "") },
+            navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Outlined.ArrowBack, "", tint = Color.White)
+                }
+            },
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = Color(0, 0, 0, 50)),
+        )
+    },
+) {
     moviesData?.let { movie ->
-        LazyColumn(content = {
+        LazyColumn( content = {
             item {
                 // Backdrop : Maybe Replace by video trailer ?
                 // TODO load after image loaded -> See glide documentation and scroll top
@@ -86,7 +103,7 @@ fun MovieDetailScreen(
                 GlideImage(
                     model = IMAGE_ORIGINAL_URL + movie.backdrop_path,
                     contentDescription = movie.title
-                    )
+                )
             }
             item {
                 // Title
@@ -113,7 +130,7 @@ fun MovieDetailScreen(
             }
             item {
                 // Title
-                Text(text = movie.title, style = MaterialTheme.typography.displaySmall)
+                Text(text = movie.title, style = MaterialTheme.typography.displaySmall, modifier = Modifier.padding(10.dp))
             }
             item {
                 // Genres chips
@@ -121,11 +138,10 @@ fun MovieDetailScreen(
             }
             item {
                 // Description
-                // TODO : Padding on whole page
                 movie.overview?.let {
                     Column {
-                        Text(text = stringResource(R.string.overview), style = MaterialTheme.typography.titleLarge)
-                        Text(text = it, style = MaterialTheme.typography.bodyMedium)
+                        Text(text = stringResource(R.string.overview), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(10.dp))
+                        Text(text = it, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(15.dp))
                     }
                 }
             }
@@ -133,7 +149,7 @@ fun MovieDetailScreen(
                 watchProvidersData?.let {
                     if (it.flatrate != null || it.buy != null || it.rent != null) {
                         Column {
-                            Text(text = stringResource(R.string.streming_category), style = MaterialTheme.typography.titleLarge)
+                            Text(text = stringResource(R.string.streming_category), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(10.dp))
                             it.flatrate?.let { flatrate ->
                                 WatchProvidersListWidget(stringResource(R.string.stream), flatrate)
                             }
@@ -184,4 +200,6 @@ fun MovieDetailScreen(
     } else if (moviesDataState is DataState.Error) {
         // TODO : handle errors : Create a common widget / class / helper
     }
+}
+
 }

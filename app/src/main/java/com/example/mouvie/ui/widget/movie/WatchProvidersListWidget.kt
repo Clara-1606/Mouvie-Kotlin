@@ -23,7 +23,7 @@ fun WatchProvidersListWidget(
     title: String,
     watchProviders : List<WatchProviderDto>
 ) {
-    Column {
+    Column(modifier = Modifier.padding(10.dp)) {
         Text(text = title, style = MaterialTheme.typography.titleMedium)
         LazyRow() {
                 items(watchProviders) { watchProvider ->

@@ -96,5 +96,13 @@ dependencies {
 
     // Libraries LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+
+    // Data store libraries
+
+    // Preferences DataStore (SharedPreferences like APIs)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // Typed DataStore (Typed API surface, such as Proto)
+    implementation("androidx.datastore:datastore:1.0.0")
     
 }

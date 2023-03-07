@@ -56,17 +56,6 @@ fun TrendingScreen(
         }
     }
 
-    // Used to make the images load earlier
-//    GlideLazyListPreloader(
-//        state = scrollState,
-//        data = data as List<MovieDto>,
-//        size = Size(500F,500F),
-//        numberOfItemsToPreload = 15,
-//        fixedVisibleItemCount = 3,
-//    ) { item, requestBuilder ->
-//        requestBuilder.load("https://image.tmdb.org/t/p/w500" + item.poster_path)
-//    }
-
     // Load more data when bottom reached
     scrollState.OnBottomReached {
         movieViewModel.loadNextPage()
