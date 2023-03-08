@@ -20,4 +20,5 @@
     <string name="language">Language</string>
     <string name="french">French</string>
     <string name="english">English</string>
+    <string name="settings_incoming">Settings page incoming ...</string>
 </resources>

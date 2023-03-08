@@ -21,4 +21,5 @@
     <string name="language">Langue</string>
     <string name="french">Français</string>
     <string name="english">Anglais</string>
+    <string name="settings_incoming">Paramètres à venir ...</string>
 </resources>
