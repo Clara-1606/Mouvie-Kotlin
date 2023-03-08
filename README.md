@@ -92,6 +92,9 @@ Gradle Version : 7.5
   * LiveData (androidx.lifecycle:lifecycle-livedata-ktx)
   * Coroutine (org.jetbrains.kotlinx:kotlinx-coroutines-android)
   * Material 3 (androidx.compose.material3:material3:1.0.0-alpha11)
+  * DataStore (androidx.datastore:datastore)
+  * Retrofit (com.squareup.retrofit2:retrofit)
+  * OkHttp 3 (com.squareup.okhttp3:okhttp)
 
 ### Other
   * [View Binding, Part of Android Jetpack](https://developer.android.com/topic/libraries/view-binding)
@@ -103,6 +106,15 @@ Our application is available in English and French
 We use the API: https://www.themoviedb.org/
 
 We had to create an account, and we can use it for free if it's not for commercial purposes.
+
+### Routes used
+- GET /movie/popular -> Used in the trending screen
+- GET /movie/{id} -> Get the movie details
+- GET /movie/{movieId}/recommendations -> Get the recommendations based on the given movie
+- GET /movie/{movieId}/similar -> Get the similar movies based on the given movie
+- GET /movie/{movieId}/credits -> Get the cast and crew of the given movie
+- GET /search/movie -> Search movies based on the given input
+- GET /movie/{movieId}/watch/providers -> Get the watch providers of the given movie
 
 ## Database
 For favorites, we use the ORM Room.
@@ -120,6 +132,40 @@ We just had to be able to have:
 We could have made it more complex, for example by making a Movie table linked to Favorites.
 But we didn't see any use for our use which remains very simple but it is in our possible improvements.
 We have also decided not to put all the information in the database so as not to overload it, whereas we can simply reuse the "Details of a film" page which does the search directly by calling the API
+
+## Datastore
+
+We implemented a datastore system on top of the room implementation used to store the favorites. 
+The original idea behind the datastore was to store the languages settings and be able to adjust them while the app is running. 
+Eventually we realized that the android system is not designed to do just that, the language settings are supposed to come from the phone settings.
+Facing this issue we decided to remove this feature from the app while keeping the datastore implementation for later use.
+
+## Infinite scroll
+
+On the trending page we decided to go for a basic infinite scroll system based on the LazyGrid widget.
+The goal here was to be able to go through the big amount of data available in the API which is organized in pages.
+ 
+The scroll system is pretty basic, the logic resides in an extension function of the LazyGridWidget that triggers a function each time the bottom is reached, that way we can load more data and append it to the previously loaded data. 
+
+Later during the app development we integrated infinite scrolls extension functions to more widget such as the LazyRow which is used in the Similar movies section of the movie detail
+
+## Search
+
+We've added a search page to be able to search for movies we already know and get detail about them
+This allowed used to implement a more advanced usage of the TextInput widget because we wanted to have a realtime update of the result as we type.
+
+## Movie detail
+
+The movie detail page is the biggest part of the app, it is the most re-used composable of the app and the more complex one.
+
+Here is a list of the different parts of this page :
+- An image of the movie
+- The favorite button in order to add / remove the movie of the user favorites (Room db)
+- The genre list (additional API request)
+- Where to buy / rent / stream the movie (additional API request)
+- The cast (additional API request)
+- The recommended movies based on the one in the details (additional API request)
+- The similar movies (additional API request)
 
 
 ## Showtime

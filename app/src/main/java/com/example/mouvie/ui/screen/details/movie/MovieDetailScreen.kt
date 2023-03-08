@@ -107,26 +107,31 @@ Scaffold(
             }
             item {
                 // Title
-                IconButton(onClick = {
-                    if (isFavorite!!) {
-                        movieDetailScreenViewModel.removeFromFavorites(movieId = movieId)
-                    } else {
-                        movieDetailScreenViewModel.addToFavorites(Favorite(idMovie = movie.id, name = movie.title, posterPath = movie.poster_path!!, id = 0))
-                    }
-                },
-                ) {
-                    if (isFavorite!!) {
-                        Icon(
-                            Icons.Filled.Favorite,
-                            contentDescription = "Favorite",
-                        )
-                    } else {
-                        Icon(
-                            Icons.Outlined.FavoriteBorder,
-                            contentDescription = "Not Favorite")
-                    }
+                Row(modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End) {
+                    IconButton(
+                        onClick = {
+                            if (isFavorite!!) {
+                                movieDetailScreenViewModel.removeFromFavorites(movieId = movieId)
+                            } else {
+                                movieDetailScreenViewModel.addToFavorites(Favorite(idMovie = movie.id, name = movie.title, posterPath = movie.poster_path!!, id = 0))
+                            }
+                        },
+                    ) {
+                        if (isFavorite!!) {
+                            Icon(
+                                Icons.Filled.Favorite,
+                                contentDescription = "Favorite",
+                            )
+                        } else {
+                            Icon(
+                                Icons.Outlined.FavoriteBorder,
+                                contentDescription = "Not Favorite")
+                        }
 
+                    }
                 }
+
             }
             item {
                 // Title
