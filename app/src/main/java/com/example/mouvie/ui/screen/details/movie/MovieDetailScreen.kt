@@ -1,5 +1,6 @@
 package com.example.mouvie.ui.screen.details.movie
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -9,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
@@ -19,11 +21,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.mouvie.R
 import com.example.mouvie.config.fixed.ApiValues.Companion.IMAGE_ORIGINAL_URL
 import com.example.mouvie.config.state.DataState
 import com.example.mouvie.model.favorite.Favorite
@@ -35,6 +40,7 @@ import com.example.mouvie.ui.widget.movie.common.CenteredProgressIndicator
 import com.example.mouvie.ui.widget.movie.common.ChipHorizontalList
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailScreen(
@@ -74,9 +80,22 @@ fun MovieDetailScreen(
         movieDetailScreenViewModel.getCredits(movieId)
         movieDetailScreenViewModel.isFavorite(movieId)
     }
-
+Scaffold(
+    topBar = {
+        SmallTopAppBar(
+            title = { Text(text = "") },
+            navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Outlined.ArrowBack, "", tint = Color.White)
+                }
+            },
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = Color(0, 0, 0, 50)),
+        )
+    },
+) {
     moviesData?.let { movie ->
-        LazyColumn(content = {
+        LazyColumn( content = {
             item {
                 // Backdrop : Maybe Replace by video trailer ?
                 // TODO load after image loaded -> See glide documentation and scroll top
@@ -84,7 +103,7 @@ fun MovieDetailScreen(
                 GlideImage(
                     model = IMAGE_ORIGINAL_URL + movie.backdrop_path,
                     contentDescription = movie.title
-                    )
+                )
             }
             item {
                 // Title
@@ -111,7 +130,7 @@ fun MovieDetailScreen(
             }
             item {
                 // Title
-                Text(text = movie.title, style = MaterialTheme.typography.displaySmall)
+                Text(text = movie.title, style = MaterialTheme.typography.displaySmall, modifier = Modifier.padding(10.dp))
             }
             item {
                 // Genres chips
@@ -119,11 +138,10 @@ fun MovieDetailScreen(
             }
             item {
                 // Description
-                // TODO : Padding on whole page
                 movie.overview?.let {
-                    Column() {
-                        Text(text = "Overview", style = MaterialTheme.typography.titleLarge)
-                        Text(text = it, style = MaterialTheme.typography.bodyMedium)
+                    Column {
+                        Text(text = stringResource(R.string.overview), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(10.dp))
+                        Text(text = it, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(15.dp))
                     }
                 }
             }
@@ -131,15 +149,15 @@ fun MovieDetailScreen(
                 watchProvidersData?.let {
                     if (it.flatrate != null || it.buy != null || it.rent != null) {
                         Column {
-                            Text(text = "Streaming services", style = MaterialTheme.typography.titleLarge)
+                            Text(text = stringResource(R.string.streming_category), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(10.dp))
                             it.flatrate?.let { flatrate ->
-                                WatchProvidersListWidget("Stream", flatrate)
+                                WatchProvidersListWidget(stringResource(R.string.stream), flatrate)
                             }
                             it.buy?.let { buy ->
-                                WatchProvidersListWidget("Buy", buy)
+                                WatchProvidersListWidget(stringResource(R.string.buy), buy)
                             }
                             it.rent?.let { rent ->
-                                WatchProvidersListWidget("Rent", rent)
+                                WatchProvidersListWidget(stringResource(R.string.rent), rent)
                             }
 
                         }
@@ -148,13 +166,13 @@ fun MovieDetailScreen(
             }
             item {
                 creditsData?.cast?.let {
-                    HorizontalPersonList(title = "Cast", persons = it.map { castMember -> PersonEntity(castMember.name, castMember.profile_path) })
+                    HorizontalPersonList(title = stringResource(R.string.cast), persons = it.map { castMember -> PersonEntity(castMember.name, castMember.profile_path) })
                 }
             }
             item {
                 // Recommended movies
                 HorizontalMovieList(
-                    title = "Recommended movies",
+                    title = stringResource(R.string.recommended_movies),
                     oneEndReached = { movieDetailScreenViewModel.loadNextRecommendedPage(movieId) },
                     data = recommendedMoviesData,
                     dataState = recommendedMoviesDataState,
@@ -164,7 +182,7 @@ fun MovieDetailScreen(
             item {
                 // Similar movies
                 HorizontalMovieList(
-                    title = "Similar movies",
+                    title = stringResource(R.string.similar_movies),
                     oneEndReached = { movieDetailScreenViewModel.loadNextSimilarPage(movieId) },
                     data = similarMoviesData,
                     dataState = similarMoviesDataState,
@@ -182,4 +200,6 @@ fun MovieDetailScreen(
     } else if (moviesDataState is DataState.Error) {
         // TODO : handle errors : Create a common widget / class / helper
     }
+}
+
 }

@@ -1,17 +1,16 @@
 package com.example.mouvie.ui.navigation.graph
 
-import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mouvie.ui.*
 import com.example.mouvie.ui.navigation.enums.Screens
 import com.example.mouvie.ui.screen.details.movie.MovieDetailScreen
 import com.example.mouvie.ui.screen.details.movie.MovieDetailScreenViewModel
 import com.example.mouvie.ui.screen.favorite.FavoriteViewModel
 import com.example.mouvie.ui.screen.home.HomeScreen
+import com.example.mouvie.ui.screen.settings.SettingsScreen
 
 @Composable
 fun RootNavigationGraph(

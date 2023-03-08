@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -39,6 +40,6 @@ fun PersonCard(
                 .clip(RoundedCornerShape(8.dp)),
             contentScale = ContentScale.Crop
         )
-        Text(text = person.name, Modifier.padding(5.dp).align(alignment = CenterHorizontally))
+        Text(text = person.name, Modifier.padding(5.dp).align(alignment = CenterHorizontally), color = Color.Black)
     }
 }
