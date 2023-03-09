@@ -118,7 +118,8 @@ We had to create an account, and we can use it for free if it's not for commerci
 
 ## Database
 For favorites, we use the ORM Room.
-If we press on the film in favorites, we see its detail, if we keep pressing we can delete it from our favorites or see the detail
+If we press on the film in favorites, we see its detail, if we keep pressing (LongPress) we can delete it from our favorites if you want  
+   
 This makes it possible to have an SQLite database integrated into our application.
 
 Our database is very simple:
