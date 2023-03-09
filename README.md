@@ -118,7 +118,9 @@ We had to create an account, and we can use it for free if it's not for commerci
 
 ## Database
 For favorites, we use the ORM Room.
+If we press on the film in favorites, we see its detail, if we keep pressing we can delete it from our favorites or see the detail
 This makes it possible to have an SQLite database integrated into our application.
+
 Our database is very simple:
 
 <img src="./readme_images/database.png" alt="database" width="100" />
@@ -173,6 +175,8 @@ Here is a simple demonstration of how the app is designed to be used, starting f
 
 ### V1 
 
+<img src="./readme_images/v1_gif.gif" alt="gifV1" width="200" />
+
 
 ## Coming 
 ### Technical
@@ -181,6 +185,7 @@ Here is a simple demonstration of how the app is designed to be used, starting f
 - Make our Android application, a cross-platform application
 
 ### New features
+- Add in settings if you want adult movies
 - Add  in your application
 - To have the follow-up of this one (how many episodes or seasons are left, etc)
 - Add filters for searches (Genre / Movies / Series ...)
