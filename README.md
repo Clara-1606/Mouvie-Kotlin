@@ -178,7 +178,7 @@ Here is a simple demonstration of how the app is designed to be used, starting f
 
 <img src="./readme_images/v1_gif.gif" alt="gifV1" width="200" />
 
-You will find in the images_readme folder, a video demonstration of our application, as well as our oral presentation in pdf
+You will find in the readme_images folder, a video demonstration of our application, as well as our oral presentation in pdf
 
 ## Coming 
 ### Technical
