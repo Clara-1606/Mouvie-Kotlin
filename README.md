@@ -172,12 +172,13 @@ Here is a list of the different parts of this page :
 
 
 ## Showtime
-Here is a simple demonstration of how the app is designed to be used, starting from the home screen to the end result :
+Here is a simple demonstration of how the app is designed to be used, starting from the home screen to the end result : 
 
 ### V1 
 
 <img src="./readme_images/v1_gif.gif" alt="gifV1" width="200" />
 
+You will find in the images_readme folder, a video demonstration of our application, as well as our oral presentation in pdf
 
 ## Coming 
 ### Technical
